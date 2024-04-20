@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>Falsk</title>
+    <link rel="stylesheet" type="text/css" href="falsk.css">
+    </script>
+    <script src="falsk.js"></script>
+</head>
+
+<body>
+
+    <!-- SETUP STATE FOR THE GAME -->
+    <div id="setup">
+        <form id="setupForm">
+            <fieldset>
+                <div>Pick a language?</div>
+                <select name="language" value="" placeholder="Language"></select>
+            </fieldset>
+            <fieldset>
+                <div>How many players:</div>
+                <div><input type="range" name="players" min="3" value="4" max="20" /></div>
+                <div><span id="playerCount"></span> players</div>
+            </fieldset>
+            <input type="submit" value="Let's play" />
+        </form>
+    </div>
+
+
+    <!-- GAME STATE  -->
+    <div id="game">
+        <div class="game-display">
+            <div class="game-display-players"><span id="playersDisplay"></span></div>
+            <div class="game-display-category"><span id="categoryDisplay"></span></div>
+            <div class="game-display-reset"><a href="#" id="resetButton">reset</a></div>
+        </div>
+        <div id="gameWord" class="game-word">
+            <div><span id="currentPlayerDisplay"></span></div>
+            <div><span id="wordDisplay"></span></div>
+        </div>
+        <div id="swipeTarget" class="game-swipe-target">
+        </div>
+    </div>
+</body>
+
+</html>

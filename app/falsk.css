@@ -1,0 +1,65 @@
+/*
+   Josh's Custom CSS Reset
+   https://www.joshwcomeau.com/css/custom-css-reset/
+ */
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-family:Arial;
+  user-select: none;
+}
+
+/* Building blocks for states */
+#setup, #game {
+  display:none;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+body.setup #setup {
+  display:block;
+}
+body.game #game {
+  display:block;
+}
+
+/* Setup state */
+
+/* Game state */
+#game {
+  background-color:black;
+  color:white;
+}
+#game a, #game a:visited {
+  color:white;
+}
+#game .game-display {
+  width:100%;
+  display:flex;
+}
+#game .game-display .game-display-category {
+  text-align:center;
+  font-size:1.4em;
+  flex:1;
+}
+#game .game-word {
+  position:absolute;
+  bottom:20vh;
+  width:100%;
+  text-align:center;
+  font-size:12vw;
+  opacity:0;
+}
+#game .game-word #currentPlayerDisplay {
+  font-size:4vw;
+}
+#game .game-swipe-target {
+  position:absolute;
+  background:url('swipe.gif') center center  no-repeat;
+  background-size:contain;
+  bottom:0;
+  height:20vh;
+  width:100%;
+}

@@ -1,0 +1,10 @@
+{
+  "da":{
+    "label": "Dansk",
+    "data": "da.json"
+  },
+  "en": {
+    "label": "English",
+    "data": "en.json"
+  }
+}
