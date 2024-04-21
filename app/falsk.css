@@ -1,13 +1,14 @@
-/*
-   Josh's Custom CSS Reset
-   https://www.joshwcomeau.com/css/custom-css-reset/
- */
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   font-family:Arial;
   user-select: none;
+  box-sizing: border-box;
 }
+body, html {
+  overscroll-behavior: none;
+}
+
 
 /* Building blocks for states */
 #setup, #game {
@@ -19,25 +20,43 @@ body {
   height:100%;
 }
 body.setup #setup {
-  display:block;
+  display: flex;
 }
 body.game #game {
   display:block;
 }
 
 /* Setup state */
+#setup {
+  justify-content: center;
+  flex-direction: column;
+  text-align:center;
+}
+#setup fieldset {
+  border:0;
+  padding:0;
+  margin:0 0 2em 0;
+}
+#setup input[type=range] {
+  min-width:60%;
+}
 
 /* Game state */
 #game {
-  background-color:black;
   color:white;
+
 }
 #game a, #game a:visited {
   color:white;
 }
 #game .game-display {
-  width:100%;
+  position:fixed;
+  top:2%;
+  left:2%;
+  right:2%;
   display:flex;
+  font-size:1.1em;
+  vertical-align:middle;
 }
 #game .game-display .game-display-category {
   text-align:center;
@@ -45,21 +64,35 @@ body.game #game {
   flex:1;
 }
 #game .game-word {
+  background-color:black;
   position:absolute;
-  bottom:20vh;
+  top:0;
+  left:0;
   width:100%;
+  height:100%;
   text-align:center;
-  font-size:12vw;
-  opacity:0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 #game .game-word #currentPlayerDisplay {
-  font-size:4vw;
+  font-size:18px;
+  color:#666;
+}
+#game .game-word #wordDisplay {
+  font-size:12vw;
+}
+#game .game-word #currentPlayerDisplay,
+#game .game-word #wordDisplay {
+  opacity:0;
 }
 #game .game-swipe-target {
-  position:absolute;
-  background:url('swipe.gif') center center  no-repeat;
+  position:fixed;
+  background:url('swipe.gif') center center no-repeat;
   background-size:contain;
   bottom:0;
+  left:0;
+  right:0;
   height:20vh;
-  width:100%;
+  transition: opacity 1s ease-in-out;
 }

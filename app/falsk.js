@@ -1,5 +1,5 @@
 (async () => {
-    const languages = (await (await fetch('languages.json')).json())
+    const languages = (await (await fetch('data/languages.json')).json())
     const body = document.getElementsByTagName('body')[0]
 
     const config = {
@@ -25,6 +25,9 @@
 
     const bootstrap = async () => {
         const setupForm = document.getElementById('setupForm')
+        const swipeTarget = document.getElementById('swipeTarget')
+        const currentPlayerDisplay = document.getElementById('currentPlayerDisplay')
+        const wordDisplay = document.getElementById('wordDisplay')
 
         // Build language options
         const languageSelect = setupForm.language
@@ -54,24 +57,36 @@
         document.getElementById('resetButton').addEventListener('click', resetGameState);
 
         // Swipe handler
-        const gameWord = document.getElementById('gameWord')
-        var swipingStart = -1;
-        document.getElementById('swipeTarget').addEventListener('mousedown', (evt) => {
-            swipingStart = evt.clientY;
-        });
-        body.addEventListener('mouseup', (evt) => {
+        var swipingStart = -1
+        const touchstart = (evt) => {
+            swipeTarget.style.opacity = 0;
+            const clientY = (evt.touches ? evt.touches[0].clientY : evt.clientY)
+            swipingStart = clientY;
+        }
+        const touchend = () => {
             swipingStart = -1;
-            gameWord.style.opacity = 0;
+            wordDisplay.style.opacity = 0;
+            currentPlayerDisplay.style.opacity = 0;
+            swipeTarget.style.opacity = 1;
             nextReveal();
-        });
-        body.addEventListener('mousemove', (evt) => {
+        }
+        const touchmove = (evt) => {
             if (swipingStart >= 0) {
-                const swipeDistance = swipingStart - evt.clientY;
+                const clientY = (evt.touches ? evt.touches[0].clientY : evt.clientY)
+                const swipeDistance = swipingStart - clientY
                 if (swipeDistance >= 0) {
-                    gameWord.style.opacity = Math.min(swipeDistance / 300.0, 1)
+                    const opacity = Math.min(swipeDistance / 200.0, 1)
+                    currentPlayerDisplay.style.opacity = opacity
+                    wordDisplay.style.opacity = opacity
                 }
             }
-        });
+        }
+        swipeTarget.addEventListener('touchstart', touchstart);
+        swipeTarget.addEventListener('mousedown', touchstart);
+        body.addEventListener('touchend', touchend);
+        body.addEventListener('mouseup', touchend);
+        body.addEventListener('touchmove', touchmove);
+        body.addEventListener('mousemove', touchmove);
 
         //
         await switchAppState('setup');
@@ -85,7 +100,7 @@
 
         // Load words
         config.words = [];
-        const data = (await (await fetch(languages[language].data)).json())
+        const data = (await (await fetch('data/' + languages[language].data)).json())
         for (const [category, words] of Object.entries(data)) {
             for (const word of words) {
                 config.words.push({ word, category })
@@ -106,6 +121,7 @@
         } else {
             document.getElementById('currentPlayerDisplay').innerHTML = ''
             document.getElementById('wordDisplay').innerHTML = ''
+            swipeTarget.style.opacity = 0;
         }
     }
 
@@ -122,6 +138,8 @@
         // Update the UI
         document.getElementById('playersDisplay').innerHTML = config.players
         document.getElementById('categoryDisplay').innerHTML = config.selectedCategory
+        swipeTarget.style.opacity = 1;
+
 
         //
         await nextReveal();
